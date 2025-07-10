@@ -1,0 +1,37 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: haproxy-kubernetes-ingress
+  namespace: haproxy-controller
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      run: haproxy-ingress
+  template:
+    metadata:
+      labels:
+        run: haproxy-ingress
+    spec:
+      serviceAccountName: haproxy-kubernetes-ingress
+      containers:
+      - name: haproxy-ingress
+        image: haproxytech/kubernetes-ingress
+        args:
+          - --configmap=haproxy-controller/haproxy-kubernetes-ingress
+          - --http-bind-port=8080
+          - --https-bind-port=8443
+          - --ingress.class=haproxy
+          - --publish-service=haproxy-controller/haproxy-kubernetes-ingress
+          - --log=debug
+        env:
+        - name: TZ
+          value: "Etc/UTC"
+        - name: POD_NAME
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.name
+        - name: POD_NAMESPACE
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.namespace
