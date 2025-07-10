@@ -7,6 +7,6 @@ roleRef:
   kind: ClusterRole
   name: haproxy-kubernetes-ingress
 subjects:
-- kind: ServiceAccount
-  name: haproxy-kubernetes-ingress
-  namespace: haproxy-controller
+  - kind: ServiceAccount
+    name: haproxy-kubernetes-ingress
+    namespace: haproxy-controller
