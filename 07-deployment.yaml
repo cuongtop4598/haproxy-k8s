@@ -4,7 +4,7 @@ metadata:
   name: haproxy-kubernetes-ingress
   namespace: haproxy-controller
 spec:
-  replicas: 1
+  replicas: 2
   selector:
     matchLabels:
       run: haproxy-ingress
